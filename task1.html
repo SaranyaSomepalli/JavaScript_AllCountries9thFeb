@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .col{
+            border:1px solid black;
+            margin:20px;
+            height:200px;
+            position: relative;
+            background-color:red;
+    }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">All_Countries
+        <div class="row" id ="row">
+
+
+        </div>
+    </div>
+    <script>
+        async function getAllCountry(){
+            try{
+                var countries = await fetch("https://restcountries.eu/rest/v2/all");
+                var data = await countries.json();
+                console.log(data)
+            
+        
+        for(i=0;i<data.length;i++){
+            var c = document.createElement("div")
+            c.setAttribute("class","col")
+            var name = document.createElement("div")
+            name.setAttribute("id","country"+i)
+            name.innerHTML = data[i].name
+            name.style.backgroundColor="blue";
+            c.appendChild(name)
+
+            document.getElementById("row").append(c)
+           var f=document.createElement("img")
+           f.src=data[i].flag 
+           f.width=75
+           f.height=50
+           c.appendChild(f)
+
+            var cap=document.createElement("div")
+            cap.setAttribute("id","country_cap"+i)
+            cap.innerHTML="capital:"+data[i].capital
+            cap.style.backgroundColor="red";
+            c.appendChild(cap)
+
+            var reg=document.createElement("div")
+           reg.setAttribute("id","country_reg"+i)
+           reg.innerHTML="region: " + data[i].region
+           c.appendChild(reg)
+           
+           var code=document.createElement("div")
+           code.setAttribute("id","code"+i)
+           code.innerHTML="code : " + data[i].alpha3Code
+           c.appendChild(code)
+        }
+        
+        }
+    
+    catch(error){
+                console.log(error)
+            }
+        }
+        getAllCountry()
+    </script>
+    
+
+</body>
+</html>
