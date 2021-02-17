@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <style>
-        .col{
+        .col-lg-4{
             border:1px solid black;
             margin:20px;
             height:200px;
@@ -16,25 +16,26 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container">All_Countries
-        <div class="row" id ="row">
+    
+    <div class="row" id ="row">
 
 
         </div>
     </div>
     <script>
+      //  <div class="container">All_Countries
         async function getAllCountry(){
             try{
                 var countries = await fetch("https://restcountries.eu/rest/v2/all");
                 var data = await countries.json();
                 console.log(data)
-            
+        
         
         for(i=0;i<data.length;i++){
             var c = document.createElement("div")
-            c.setAttribute("class","col")
+            c.setAttribute("class","col-lg-4")
             var name = document.createElement("div")
-            name.setAttribute("id","country"+i)
+          //  name.setAttribute("id","country"+i)
             name.innerHTML = data[i].name
             name.style.backgroundColor="blue";
             c.appendChild(name)
@@ -47,13 +48,13 @@
            c.appendChild(f)
 
             var cap=document.createElement("div")
-            cap.setAttribute("id","country_cap"+i)
+         //   cap.setAttribute("id","country_cap"+i)
             cap.innerHTML="capital:"+data[i].capital
             cap.style.backgroundColor="red";
             c.appendChild(cap)
 
             var reg=document.createElement("div")
-           reg.setAttribute("id","country_reg"+i)
+         //  reg.setAttribute("id","country_reg"+i)
            reg.innerHTML="region: " + data[i].region
            c.appendChild(reg)
            
@@ -62,12 +63,17 @@
            code.innerHTML="code : " + data[i].alpha3Code
            c.appendChild(code)
 
-           var button=document.createElement("button")
-           button.setAttribute("class","btn btn-primary")
-           button.setAttribute("id","country_weather"+i)
-           button.type="button";
-           button.innerHTML="Weather"
-           c.appendChild(button)
+           var bn=document.createElement("button")
+           bn.setAttribute("class","btn btn-primary")
+           bn.setAttribute("id","country_weather"+i)
+           bn.type="button";
+           var te=data[i].capital
+           console.log(te)
+           c.appendChild(bn)
+           bn.setAttribute("onclick","t('"+data[i].capital+"')")
+
+           
+           bn.innerHTML="click to see weather"
         }
         
         }
@@ -76,6 +82,20 @@
                 console.log(error)
             }
         }
+
+        async function t(city)
+        {
+            try{
+                console.log(city)
+               var we=await fetch("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=1146e775ac399425a2e5b58780d5a03f")
+               var inf=await we.json()
+               alert('temp :'+inf.main.temp+'\n'+'description:'+inf.weather[0].description)
+               }
+               catch(error)
+               {
+                   console.log(error)
+               }
+           }
         getAllCountry()
     </script>
     
